@@ -24,6 +24,10 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 >
     <requiredProperties>
+        <requiredProperty key="version">
+            <defaultValue>1.0.0-SNAPSHOT</defaultValue>
+        </requiredProperty>
+
         <!--
            The Project Label used a prefix to the name of modules and is part of the descriptions
         -->
@@ -32,7 +36,9 @@
            This is the folder name of the group underneath of /etc/packages where the content package
            is installed
         -->
-        <requiredProperty key="packageGroup"/>
+        <requiredProperty key="packageGroup">
+            <defaultValue>${groupId}</defaultValue>
+        </requiredProperty>
         <!--
             The folder name underneath /apps where components etc is installed from content packages.
             This folder separates projects from each other and should be unique within your deployment
@@ -45,23 +51,40 @@
         -->
         <requiredProperty key="contentFolderName"/>
         <!--
+            Package of the generated Service classes
+        -->
+        <requiredProperty key="package">
+            <defaultValue>${groupId}</defaultValue>
+        </requiredProperty>
+        <!--
             Sub Package for the Sling Models (it is prepended with the package specified above)
         -->
-        <requiredProperty key="slingModelSubPackage"/>
+        <requiredProperty key="slingModelSubPackage">
+            <!--<defaultValue>models</defaultValue>-->
+        </requiredProperty>
         <!--
             Target Host Name or IP Address of the Deployment Sling Server
         -->
-        <requiredProperty key="slingHostName"/>
+        <requiredProperty key="slingHostName">
+            <defaultValue>localhost</defaultValue>
+        </requiredProperty>
         <!--
             Target Port of the Deployment Sling Server
         -->
-        <requiredProperty key="slingPort"/>
+        <requiredProperty key="slingPort">
+            <defaultValue>8080</defaultValue>
+        </requiredProperty>
+        <!-- If set to yes a project is created with an All Packager rather than deploying the bundle inside ui.apps -->
+        <requiredProperty key="optionAll">
+            <defaultValue>n</defaultValue>
+            <validationRegex>^(y|n)$</validationRegex>
+        </requiredProperty>
     </requiredProperties>
     <fileSets>
         <fileSet encoding="UTF-8">
             <directory></directory>
             <includes>
-                <include>Readme.md</include>
+                <include>Readme.*.md</include>
             </includes>
         </fileSet>
     </fileSets>
@@ -123,6 +146,17 @@
                     </includes>
                 </fileSet>
             </fileSets>
+        </module>
+        <module id="all" dir="all" name="all">
+            <!--<fileSets>-->
+                <!--<fileSet filtered="true" encoding="UTF-8">-->
+                    <!--<directory>src/main/content</directory>-->
+                    <!--<includes>-->
+                        <!--<include>**/*.xml</include>-->
+                        <!--<include>**/*.html</include>-->
+                    <!--</includes>-->
+                <!--</fileSet>-->
+            <!--</fileSets>-->
         </module>
     </modules>
 </archetype-descriptor>

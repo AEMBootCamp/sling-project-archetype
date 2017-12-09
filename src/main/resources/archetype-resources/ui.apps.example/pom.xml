@@ -1,7 +1,7 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     Licensed to the Apache Software Foundation (ASF) under one
     or more contributor license agreements.  See the NOTICE file
@@ -53,14 +53,15 @@
         deployments.
     </description>
 
-    <!--AS TODO: Remove these dependencies before release -->
+    <!-- @startForNotAll@ This is used for the Post Generation Handling. Do not alter or remove -->
     <dependencies>
         <dependency>
             <groupId>\${project.groupId}</groupId>
-            <artifactId>core.example</artifactId>
+            <artifactId>core</artifactId>
             <version>\${project.version}</version>
         </dependency>
     </dependencies>
+    <!-- @endForNotAll@ This is used for the Post Generation Handling. Do not alter or remove -->
 
     <build>
         <resources>
@@ -72,6 +73,9 @@
                 -->
                 <directory>\${basedir}/src/main/content/META-INF</directory>
                 <targetPath>../vault-work/META-INF</targetPath>
+                <excludes>
+                    <exclude>vault/filter.xml</exclude>
+                </excludes>
             </resource>
             <resource>
                 <directory>\${basedir}/src/main/content/jcr_root</directory>
@@ -93,30 +97,62 @@
 
         <plugins>
             <plugin>
-                <groupId>io.wcm.maven.plugins</groupId>
-                <artifactId>wcmio-content-package-maven-plugin</artifactId>
+                <groupId>org.apache.jackrabbit</groupId>
+                <artifactId>filevault-package-maven-plugin</artifactId>
+                <configuration>
+                    <filterSource>\${basedir}/src/main/content/META-INF/vault/filter.xml</filterSource>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
                             <goal>package</goal>
                         </goals>
+                        <!-- @startForNotAll@ This is used for the Post Generation Handling. Do not alter or remove -->
                         <configuration>
                             <embeddedTarget>/apps/\${appsFolderName}/install</embeddedTarget>
                             <embeddeds>
                                 <embedded>
                                     <groupId>\${project.groupId}</groupId>
-                                    <artifactId>core.example</artifactId>
-                                    <generateFilter>true</generateFilter>
+                                    <artifactId>core</artifactId>
+                                    <filter>true</filter>
                                 </embedded>
                             </embeddeds>
                             <!-- ATTENTION: Do not include this package as sub package which would yield an endless loop -->
                         </configuration>
+                        <!-- @endForNotAll@ This is used for the Post Generation Handling. Do not alter or remove -->
                     </execution>
                 </executions>
             </plugin>
+
+            <!--<plugin>-->
+                <!--<groupId>io.wcm.maven.plugins</groupId>-->
+                <!--<artifactId>wcmio-content-package-maven-plugin</artifactId>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<goals>-->
+                            <!--<goal>package</goal>-->
+                        <!--</goals>-->
+                        <!--&lt;!&ndash; @startForNotAll@ This is used for the Post Generation Handling. Do not alter or remove &ndash;&gt;-->
+                        <!--<configuration>-->
+                            <!--<embeddedTarget>/apps/\${appsFolderName}/install</embeddedTarget>-->
+                            <!--<embeddeds>-->
+                                <!--<embedded>-->
+                                    <!--<groupId>\${project.groupId}</groupId>-->
+                                    <!--<artifactId>core</artifactId>-->
+                                    <!--<generateFilter>true</generateFilter>-->
+                                <!--</embedded>-->
+                            <!--</embeddeds>-->
+                            <!--&lt;!&ndash; ATTENTION: Do not include this package as sub package which would yield an endless loop &ndash;&gt;-->
+                        <!--</configuration>-->
+                        <!--&lt;!&ndash; @endForNotAll@ This is used for the Post Generation Handling. Do not alter or remove &ndash;&gt;-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
         </plugins>
     </build>
-    <profiles>
+    <!-- @startForNotAll@ This is used for the Post Generation Handling. Do not alter or remove -->
+    <!--Commented out to avoid accidental deployment -->
+    <!--<profiles>-->
         <!--<profile>-->
             <!--<id>autoInstallPackage</id>-->
             <!--<build>-->
@@ -136,5 +172,6 @@
                 <!--</plugins>-->
             <!--</build>-->
         <!--</profile>-->
-    </profiles>
+    <!--</profiles>-->
+    <!-- @endForNotAll@ This is used for the Post Generation Handling. Do not alter or remove -->
 </project>

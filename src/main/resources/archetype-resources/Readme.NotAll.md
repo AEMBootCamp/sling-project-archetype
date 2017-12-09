@@ -58,7 +58,7 @@ use the project **autoInstallPackage**:
 
 ##### ATTENTION
 
-It is probably best to not deploy the OSGi Bundle alone as this
+It is probably best not to deploy the OSGi Bundle alone as this
 may lead to conflicts with the package deployment.
 
 In case of a mishape the package and bundles needs to deinstalled

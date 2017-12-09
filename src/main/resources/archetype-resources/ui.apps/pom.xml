@@ -39,14 +39,21 @@
         This is an empty JCR Package where the JCR Content
         can be deployed with.
 
-        This module is deployed with the
-        Profile "autoInstallPackage" which deploys both
-        this JCR Package as well as the core "OSGi Bundle".
-        If you add more modules to your project then you need
-        to add them to that profile and include here
-        as dependencies.
+        For a "not all" package this JCR Package will embedd
+        the "core" bundle. It can be deployed with the
+        "autoInstallPackage" profile.
+
+        For an "all" package this only provides the content
+        of the project which is deployed in the root with
+        the "autoInstallAll" profile.
+
+        It is advisable to deploy any bundles or packages
+        in one manner as deploying bundles inside a package
+        and through the System Console can lead to unexpected
+        and errorneous situations.
     </description>
 
+    <!-- @startForNotAll@ This is used for the Post Generation Handling. Do not alter or remove -->
     <dependencies>
         <dependency>
             <groupId>\${project.groupId}</groupId>
@@ -54,6 +61,7 @@
             <version>\${project.version}</version>
         </dependency>
     </dependencies>
+    <!-- @endForNotAll@ This is used for the Post Generation Handling. Do not alter or remove -->
 
     <build>
         <resources>
@@ -65,6 +73,9 @@
                 -->
                 <directory>\${basedir}/src/main/content/META-INF</directory>
                 <targetPath>../vault-work/META-INF</targetPath>
+                <excludes>
+                    <exclude>vault/filter.xml</exclude>
+                </excludes>
             </resource>
             <resource>
                 <directory>\${basedir}/src/main/content/jcr_root</directory>
@@ -86,30 +97,62 @@
 
         <plugins>
             <plugin>
-                <groupId>io.wcm.maven.plugins</groupId>
-                <artifactId>wcmio-content-package-maven-plugin</artifactId>
+                <groupId>org.apache.jackrabbit</groupId>
+                <artifactId>filevault-package-maven-plugin</artifactId>
+                <configuration>
+                    <filterSource>\${basedir}/src/main/content/META-INF/vault/filter.xml</filterSource>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
                             <goal>package</goal>
                         </goals>
+                        <!-- @startForNotAll@ This is used for the Post Generation Handling. Do not alter or remove -->
                         <configuration>
                             <embeddedTarget>/apps/\${appsFolderName}/install</embeddedTarget>
                             <embeddeds>
                                 <embedded>
                                     <groupId>\${project.groupId}</groupId>
                                     <artifactId>core</artifactId>
-                                    <generateFilter>true</generateFilter>
+                                    <filter>true</filter>
                                 </embedded>
                             </embeddeds>
                             <!-- ATTENTION: Do not include this package as sub package which would yield an endless loop -->
                         </configuration>
+                        <!-- @endForNotAll@ This is used for the Post Generation Handling. Do not alter or remove -->
                     </execution>
                 </executions>
             </plugin>
+
+            <!--<plugin>-->
+                <!--<groupId>io.wcm.maven.plugins</groupId>-->
+                <!--<artifactId>wcmio-content-package-maven-plugin</artifactId>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<goals>-->
+                            <!--<goal>package</goal>-->
+                        <!--</goals>-->
+                        <!--&lt;!&ndash; @startForNotAll@ This is used for the Post Generation Handling. Do not alter or remove &ndash;&gt;-->
+                        <!--<configuration>-->
+                            <!--<embeddedTarget>/apps/\${appsFolderName}/install</embeddedTarget>-->
+                            <!--<embeddeds>-->
+                                <!--<embedded>-->
+                                    <!--<groupId>\${project.groupId}</groupId>-->
+                                    <!--<artifactId>core</artifactId>-->
+                                    <!--<generateFilter>true</generateFilter>-->
+                                <!--</embedded>-->
+                            <!--</embeddeds>-->
+                            <!--&lt;!&ndash; ATTENTION: Do not include this package as sub package which would yield an endless loop &ndash;&gt;-->
+                        <!--</configuration>-->
+                        <!--&lt;!&ndash; @endForNotAll@ This is used for the Post Generation Handling. Do not alter or remove &ndash;&gt;-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
         </plugins>
     </build>
+    <!-- @startForNotAll@ This is used for the Post Generation Handling. Do not alter or remove -->
     <profiles>
+        <!-- ATTENTION: It is highly recomended not to deploy this with this Profile if this Package was or will be deployed with the All package -->
         <profile>
             <id>autoInstallPackage</id>
             <build>
@@ -130,4 +173,5 @@
             </build>
         </profile>
     </profiles>
+    <!-- @endForNotAll@ This is used for the Post Generation Handling. Do not alter or remove -->
 </project>

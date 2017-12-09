@@ -152,7 +152,8 @@
         </dependency>
     </dependencies>
 
-    <profiles>
+    <!--Commented out to avoid accidental deployment -->
+    <!--<profiles>-->
         <!--<profile>-->
             <!--<id>autoInstallBundle</id>-->
             <!--<build>-->
@@ -172,5 +173,5 @@
                 <!--</plugins>-->
             <!--</build>-->
         <!--</profile>-->
-    </profiles>
+    <!--</profiles>-->
 </project>
