@@ -57,70 +57,29 @@
 
     <build>
         <plugins>
-            <!-- This plugin does not work with no filter.xml file or a 'filters' entry -->
-            <!--<plugin>-->
-                <!--<groupId>org.apache.jackrabbit</groupId>-->
-                <!--<artifactId>filevault-package-maven-plugin</artifactId>-->
-                <!--<configuration>-->
-                    <!--<packageType>container</packageType>-->
-                <!--</configuration>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<goals>-->
-                            <!--<goal>package</goal>-->
-                        <!--</goals>-->
-                        <!--<configuration>-->
-                            <!--<embeddedTarget>/apps/\${appsFolderName}/install</embeddedTarget>-->
-                            <!--<embeddeds>-->
-                                <!--<embedded>-->
-                                    <!--<groupId>\${project.groupId}</groupId>-->
-                                    <!--<artifactId>core</artifactId>-->
-                                    <!--<filter>true</filter>-->
-                                <!--</embedded>-->
-                            <!--</embeddeds>-->
-                            <!--<subPackages>-->
-                                <!--<subPackage>-->
-                                    <!--<groupId>\${project.groupId}</groupId>-->
-                                    <!--<artifactId>ui.apps</artifactId>-->
-                                    <!--<filter>true</filter>-->
-                                <!--</subPackage>-->
-                            <!--</subPackages>-->
-                            <!--&lt;!&ndash; ATTENTION: Do not include this package as sub package which would yield an endless loop &ndash;&gt;-->
-                        <!--</configuration>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
-
             <plugin>
-                <groupId>io.wcm.maven.plugins</groupId>
-                <artifactId>wcmio-content-package-maven-plugin</artifactId>
-                <extensions>true</extensions>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>package</goal>
-                        </goals>
-                        <configuration>
-                            <embeddedTarget>/apps/\${appsFolderName}/install</embeddedTarget>
-                            <embeddeds>
-                                <embedded>
-                                    <groupId>\${project.groupId}</groupId>
-                                    <artifactId>core</artifactId>
-                                    <generateFilter>true</generateFilter>
-                                </embedded>
-                            </embeddeds>
-                            <subPackages>
-                                <subPackage>
-                                    <groupId>\${project.groupId}</groupId>
-                                    <artifactId>ui.apps</artifactId>
-                                    <generateFilter>true</generateFilter>
-                                </subPackage>
-                            </subPackages>
-                            <!-- This gives the Package a recognizable name in the Package Manager by prepending the Artifact Id of the Project -->
-                            <name>\${rootArtifactId}-\${artifactId}</name>
-                        </configuration>
-                    </execution>
-                </executions>
+                <groupId>org.apache.jackrabbit</groupId>
+                <artifactId>filevault-package-maven-plugin</artifactId>
+                <configuration>
+                    <packageType>container</packageType>
+                    <embeddedTarget>/apps/\${appsFolderName}/install</embeddedTarget>
+                    <embeddeds>
+                        <embedded>
+                            <groupId>\${project.groupId}</groupId>
+                            <artifactId>core</artifactId>
+                            <filter>true</filter>
+                        </embedded>
+                    </embeddeds>
+                    <subPackages>
+                        <subPackage>
+                            <groupId>\${project.groupId}</groupId>
+                            <artifactId>ui.apps</artifactId>
+                            <filter>true</filter>
+                        </subPackage>
+                    </subPackages>
+                    <!-- This gives the Package a recognizable name in the Package Manager by prepending the Artifact Id of the Project -->
+                    <name>\${rootArtifactId}-\${artifactId}</name>
+                </configuration>
             </plugin>
         </plugins>
     </build>
