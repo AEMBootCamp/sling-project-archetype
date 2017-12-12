@@ -79,6 +79,11 @@
             <defaultValue>n</defaultValue>
             <validationRegex>^(y|n)$</validationRegex>
         </requiredProperty>
+        <!-- Indicates if the examples should be a separate module, merged into or ditched -->
+        <requiredProperty key="optionExample">
+            <defaultValue>s</defaultValue>
+            <validationRegex>^(s|m|d)$</validationRegex>
+        </requiredProperty>
     </requiredProperties>
     <fileSets>
         <fileSet encoding="UTF-8">

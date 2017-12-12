@@ -1,9 +1,18 @@
 import java.util.regex.Pattern
+import org.apache.commons.io.FileUtils
 
 def rootDir = new File(request.getOutputDirectory() + "/" + request.getArtifactId())
+
 def coreBundle = new File(rootDir, "core")
+def coreSrc = new File(coreBundle, "src")
+def coreExampleBundle = new File(rootDir, "core.example")
+def coreExampleSrc = new File(coreExampleBundle, "src")
 
 def uiAppsPackage = new File(rootDir, "ui.apps")
+def uiAppsSrc = new File(uiAppsPackage, "src")
+def uiAppsExamplePackage = new File(rootDir, "ui.apps.example")
+def uiAppsExampleSrc = new File(uiAppsExamplePackage, "src")
+
 def uiAppsPom = new File(uiAppsPackage, "pom.xml")
 def allPackage = new File(rootDir, "all")
 def rootPom = new File(rootDir, "pom.xml")
@@ -12,6 +21,7 @@ def readmeAll = new File(rootDir, "Readme.All.md")
 def readmeNotAll = new File(rootDir, "Readme.NotAll.md")
 
 def optionAll = request.getProperties().get("optionAll")
+def optionExample = request.getProperties().get("optionExample")
 
 
 // helper methods
@@ -76,4 +86,38 @@ if(optionAll == "n") {
     assert readmeNotAll.delete()
     // Rename the For All Readme to the Readme.md file
     assert readmeAll.renameTo(readme)
+}
+
+if(optionExample == "m") {
+    // Examples should be merged into the regular modules and then the example folders removed
+    // Delete core source folder (if exists) and then rename core example source to core source
+    if(coreSrc.exists()) {
+        FileUtils.deleteDirectory(coreSrc)
+    }
+    if(coreExampleBundle.exists()) {
+        assert coreExampleSrc.renameTo(coreSrc);
+        FileUtils.deleteDirectory(coreExampleBundle)
+    }
+    removeModule(rootPom, "core.example")
+    // Delete ui.apps source folder (if exists) and then rename ui.apps example source to ui.apps source
+    if(uiAppsSrc.exists()) {
+        FileUtils.deleteDirectory(uiAppsSrc)
+    }
+    if(uiAppsExamplePackage.exists()) {
+        assert uiAppsExampleSrc.renameTo(uiAppsSrc);
+        FileUtils.deleteDirectory(uiAppsExamplePackage)
+    }
+    removeModule(rootPom, "ui.apps.example")
+} else if(optionExample == "d") {
+    // Examples should be deleted
+    // Remove core.example
+    if(coreExampleBundle.exists()) {
+        FileUtils.deleteDirectory(coreExampleBundle)
+    }
+    removeModule(rootPom, "core.example")
+    // Remove ui.apps.example
+    if(uiAppsExamplePackage.exists()) {
+        FileUtils.deleteDirectory(uiAppsExamplePackage)
+    }
+    removeModule(rootPom, "ui.apps.example")
 }

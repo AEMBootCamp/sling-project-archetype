@@ -48,6 +48,7 @@ how to build and deploy the entire project in one step.
 |slingHostName        |Host Name or IP Address of the server where Sling is hosted|
 |slingPort            |Port to which your Sling instance is bound to|
 |optionAll            |Determines if the project is created with an **all** package as single deployed unit (y/n)|
+|optionExample        |Determines if the examples are kept separate (s), merged into the regular modules (m) or deleted (d)|
 
 #### Usage
 
