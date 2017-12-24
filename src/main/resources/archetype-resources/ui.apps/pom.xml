@@ -64,37 +64,6 @@
     <!-- @endForNotAll@ This is used for the Post Generation Handling. Do not alter or remove -->
 
     <build>
-        <resources>
-            <!-- define the resources that will go into the package -->
-            <resource>
-                <!--
-                    we want to keep some of the META-INF files and not configure
-                    everything in the plugin.
-                -->
-                <directory>\${basedir}/src/main/content/META-INF</directory>
-                <targetPath>../vault-work/META-INF</targetPath>
-                <excludes>
-                    <exclude>vault/filter.xml</exclude>
-                </excludes>
-            </resource>
-            <resource>
-                <directory>\${basedir}/src/main/content/jcr_root</directory>
-                <excludes>
-                    <!-- exclude .vlt control files in the package -->
-                    <exclude>**/.vlt</exclude>
-                    <exclude>**/.vltignore</exclude>
-                    <exclude>**/.gitignore</exclude>
-                    <exclude>**/*.iml</exclude>
-                    <exclude>**/.classpath</exclude>
-                    <exclude>**/.project</exclude>
-                    <exclude>**/.settings</exclude>
-                    <exclude>**/.DS_Store</exclude>
-                    <exclude>**/target/**</exclude>
-                    <exclude>**/pom.xml</exclude>
-                </excludes>
-            </resource>
-        </resources>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.jackrabbit</groupId>
@@ -117,37 +86,11 @@
                                     <filter>true</filter>
                                 </embedded>
                             </embeddeds>
-                            <!-- ATTENTION: Do not include this package as sub package which would yield an endless loop -->
                         </configuration>
                         <!-- @endForNotAll@ This is used for the Post Generation Handling. Do not alter or remove -->
                     </execution>
                 </executions>
             </plugin>
-
-            <!--<plugin>-->
-                <!--<groupId>io.wcm.maven.plugins</groupId>-->
-                <!--<artifactId>wcmio-content-package-maven-plugin</artifactId>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<goals>-->
-                            <!--<goal>package</goal>-->
-                        <!--</goals>-->
-                        <!--&lt;!&ndash; @startForNotAll@ This is used for the Post Generation Handling. Do not alter or remove &ndash;&gt;-->
-                        <!--<configuration>-->
-                            <!--<embeddedTarget>/apps/\${appsFolderName}/install</embeddedTarget>-->
-                            <!--<embeddeds>-->
-                                <!--<embedded>-->
-                                    <!--<groupId>\${project.groupId}</groupId>-->
-                                    <!--<artifactId>core</artifactId>-->
-                                    <!--<generateFilter>true</generateFilter>-->
-                                <!--</embedded>-->
-                            <!--</embeddeds>-->
-                            <!--&lt;!&ndash; ATTENTION: Do not include this package as sub package which would yield an endless loop &ndash;&gt;-->
-                        <!--</configuration>-->
-                        <!--&lt;!&ndash; @endForNotAll@ This is used for the Post Generation Handling. Do not alter or remove &ndash;&gt;-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
         </plugins>
     </build>
     <!-- @startForNotAll@ This is used for the Post Generation Handling. Do not alter or remove -->
